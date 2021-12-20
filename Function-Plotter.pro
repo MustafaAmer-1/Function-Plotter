@@ -12,11 +12,13 @@ INCLUDEPATH += ./src/
 INCLUDEPATH += ./headers/
 
 SOURCES += \
+    src/plotter.cpp \
     src/main.cpp \
     src/mainwindow.cpp
 
 HEADERS += \
-    headers/mainwindow.h
+    headers/mainwindow.h \
+    headers/plotter.h
 
 FORMS += \
     forms/mainwindow.ui
