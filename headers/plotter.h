@@ -10,11 +10,15 @@ class Plotter : public QObject
 private:
     inline static Plotter* plotterSingleton;
     QString function_str;
+    bool isExpValid;
 
     Plotter(QString str);
 
+    bool isExpression(QChar e);
 public:
     static Plotter* getPlotter(QString function_str = "");
+
+    bool validate();
 };
 
 #endif // PLOTTER_H
