@@ -14,7 +14,10 @@ private:
 
     Plotter(QString str);
 
-    bool isExpression(QChar e);
+    bool isBinaryOp(QChar e);
+    bool isSign(QChar e);
+    bool isValidOperand(QChar e);
+
 public:
     static Plotter* getPlotter(QString function_str = "");
 

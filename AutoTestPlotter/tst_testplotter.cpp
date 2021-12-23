@@ -28,6 +28,17 @@ void TestPlotter::validate_data(){
     QTest::newRow("statring wrong")     << "*x+5" << false;
     QTest::newRow("ending wrong") << "x+5*" << false;
     QTest::newRow("middle wrong") << "x^9+50x++95*2*x+702" << false;
+    QTest::newRow("sign test 1") << "-x" << true;
+    QTest::newRow("sign test 2") << "x" << true;
+    QTest::newRow("sign test 3") << "+15" << true;
+    QTest::newRow("sign test 4") << "+x" << true;
+    QTest::newRow("sign test 5") << "2*-x" << true;
+    QTest::newRow("sign test 6") << "-x/556" << true;
+    QTest::newRow("sign test 7") << "-*x" << false;
+    QTest::newRow("sign test 8") << "*x" << false;
+    QTest::newRow("sign test 9") << "*" << false;
+    QTest::newRow("sign test 10") << "y-x" << false;
+    QTest::newRow("empty") << "" << true;
 }
 
 QTEST_APPLESS_MAIN(TestPlotter)
