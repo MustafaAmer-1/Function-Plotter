@@ -3,6 +3,9 @@
 
 #define openingBr(x) (x == '(' || x == '{' || x == '[')
 #define closingBr(x) (x == ')' || x == '}' || x == ']')
+#define isBinaryOp(e) (e == '*' || e == '/' || e == '^')
+#define isSign(e) (e == '-' || e == '+')
+#define isValidOperand(e) (e.isDigit() || e == 'x')
 
 Plotter::Plotter(QString str)
 {
@@ -19,18 +22,6 @@ Plotter* Plotter::getPlotter(QString function_str){
     }
 
     return plotterSingleton;
-}
-
-bool Plotter::isBinaryOp(QChar e){
-    return (e == '*' || e == '/' || e == '^');
-}
-
-bool Plotter::isSign(QChar e){
-    return (e == '-' || e == '+');
-}
-
-bool Plotter::isValidOperand(QChar e){
-    return e.isDigit() || e == 'x';
 }
 
 bool Plotter::validate(){
@@ -54,10 +45,10 @@ bool Plotter::validate(){
         else if(function_str_nb.size() == 1) return isExpValid = (function_str_nb[0].isDigit() || function_str_nb[0] == 'x');
         else return isExpValid = (isSign(function_str_nb[0]) && (function_str_nb[1].isDigit() || function_str_nb[1] == 'x'));
     }
-    if(Plotter::isBinaryOp(function_str_nb[0]) || Plotter::isBinaryOp(function_str_nb.back()) || Plotter::isSign(function_str_nb.back())) return isExpValid = 0;
+    if(isBinaryOp(function_str_nb[0]) || isBinaryOp(function_str_nb.back()) || isSign(function_str_nb.back())) return isExpValid = 0;
 
     for(int i = 1; i < function_str_nb.size(); i++){
-        if(Plotter::isBinaryOp(function_str_nb[i])){
+        if(isBinaryOp(function_str_nb[i])){
             if(!isValidOperand(function_str_nb[i-1]) || (!isValidOperand(function_str_nb[i+1]) && !isSign(function_str_nb[i+1])))
                 return isExpValid = 0;
         }
