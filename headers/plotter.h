@@ -17,6 +17,7 @@ private:
     bool isBinaryOp(QChar e);
     bool isSign(QChar e);
     bool isValidOperand(QChar e);
+    bool checkBrackets(QString str);
 
 public:
     static Plotter* getPlotter(QString function_str = "");
