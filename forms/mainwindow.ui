@@ -15,8 +15,109 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0" colspan="5">
+     <widget class="QWidget" name="widget" native="true"/>
+    </item>
     <item row="0" column="1">
-     <widget class="QPushButton" name="pushButton">
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>To</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="to_x_spin">
+        <property name="minimum">
+         <double>-9999.99</double>
+        </property>
+        <property name="maximum">
+         <double>9999.99</double>
+        </property>
+        <property name="value">
+         <double>10.0</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QDoubleSpinBox" name="from_fun_spin">
+        <property name="minimum">
+         <double>-9999.99</double>
+        </property>
+        <property name="maximum">
+         <double>9999.99</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>From</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>From</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="from_x_spin">
+        <property name="minimum">
+         <double>-9999.99</double>
+        </property>
+        <property name="maximum">
+         <double>9999.99</double>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QDoubleSpinBox" name="to_fun_spin">
+        <property name="minimum">
+         <double>-9999.99</double>
+        </property>
+        <property name="maximum">
+         <double>9999.99</double>
+        </property>
+        <property name="value">
+         <double>10.0</double>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>To</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>X</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" colspan="2">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Fun</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="plotButton">
       <property name="text">
        <string>Plot</string>
       </property>
@@ -24,9 +125,6 @@
     </item>
     <item row="0" column="0">
      <widget class="QLineEdit" name="fun_input_widget"/>
-    </item>
-    <item row="1" column="0" colspan="2">
-     <widget class="QWidget" name="widget" native="true"/>
     </item>
    </layout>
   </widget>
