@@ -74,3 +74,7 @@ bool Plotter::checkBrackets(QString str){
     }
     return stack.empty();
 }
+
+void Plotter::plot(double from_x, double to_x, double from_fun, double to_fun){
+
+}

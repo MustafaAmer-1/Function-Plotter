@@ -20,6 +20,8 @@ public:
     static Plotter* getPlotter(QString function_str = "");
 
     bool validate();
+
+    void plot(double from_x, double to_x, double from_fun, double to_fun);
 };
 
 #endif // PLOTTER_H
