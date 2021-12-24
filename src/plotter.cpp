@@ -5,7 +5,7 @@
 #define closingBr(x) (x == ')' || x == '}' || x == ']')
 #define isBinaryOp(e) (e == '*' || e == '/' || e == '^')
 #define isSign(e) (e == '-' || e == '+')
-#define isValidOperand(e) (e.isDigit() || e == 'x')
+#define isValidOperand(e) (e.isDigit() || e == 'x' || e == '.')
 
 Plotter::Plotter(QString str)
 {
@@ -45,17 +45,20 @@ bool Plotter::validate(){
         else if(function_str_nb.size() == 1) return isExpValid = (function_str_nb[0].isDigit() || function_str_nb[0] == 'x');
         else return isExpValid = (isSign(function_str_nb[0]) && (function_str_nb[1].isDigit() || function_str_nb[1] == 'x'));
     }
-    if(isBinaryOp(function_str_nb[0]) || isBinaryOp(function_str_nb.back()) || isSign(function_str_nb.back())) return isExpValid = 0;
+    if(isBinaryOp(function_str_nb[0]) || isBinaryOp(function_str_nb.back()) || isSign(function_str_nb.back())
+            || (!isValidOperand(function_str_nb[0]) && !isSign(function_str_nb[0])) || (function_str_nb[0] == 'x' && function_str_nb[1].isDigit())) return isExpValid = 0;
 
     for(int i = 1; i < function_str_nb.size(); i++){
         if(isBinaryOp(function_str_nb[i])){
-            if(!isValidOperand(function_str_nb[i-1]) || (!isValidOperand(function_str_nb[i+1]) && !isSign(function_str_nb[i+1])))
+            if(!isValidOperand(function_str_nb[i-1]) || (i < function_str_nb.size()-1 && !isValidOperand(function_str_nb[i+1]) && !isSign(function_str_nb[i+1])))
                 return isExpValid = 0;
         }
         else if(isSign(function_str_nb[i])){
-            if((!isValidOperand(function_str_nb[i-1]) && !isBinaryOp(function_str_nb[i-1])) || !isValidOperand(function_str_nb[i+1]))
+            if((!isValidOperand(function_str_nb[i-1]) && !isBinaryOp(function_str_nb[i-1])) || (i < function_str_nb.size()-1 && !isValidOperand(function_str_nb[i+1])))
                 return isExpValid = 0;
         }
+        else if(!isValidOperand(function_str_nb[i])) return isExpValid = 0;
+        else if(function_str_nb[i] == 'x' && (function_str_nb[i-1].isDigit() || (i < function_str_nb.size()-1 && function_str_nb[i+1].isDigit()))) return isExpValid = 0;
     }
     return isExpValid = 1;
 }
