@@ -1,6 +1,6 @@
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 CONFIG += c++11
 
@@ -10,15 +10,18 @@ CONFIG += c++11
 
 INCLUDEPATH += ./src/
 INCLUDEPATH += ./headers/
+INCLUDEPATH += ./lib/
 
 SOURCES += \
     src/plotter.cpp \
     src/main.cpp \
-    src/mainwindow.cpp
+    src/mainwindow.cpp \
+    lib/qcustomplot.cpp
 
 HEADERS += \
     headers/mainwindow.h \
-    headers/plotter.h
+    headers/plotter.h \
+    lib/qcustomplot.h
 
 FORMS += \
     forms/mainwindow.ui
