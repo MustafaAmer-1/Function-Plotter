@@ -22,7 +22,7 @@ public:
 
     bool validate();
 
-    void plot(double from_x, double to_x, double from_fun, double to_fun);
+    void plot(double from_x, double to_x, int points_no);
 
     double evaluate(QString function_str, int varValue);
 };

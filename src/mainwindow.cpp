@@ -24,17 +24,12 @@ void MainWindow::on_plotButton_clicked()
     if(plotter->validate()){
         double from_x = ui->from_x_spin->value();
         double to_x = ui->to_x_spin->value();
-        double from_fun = ui->from_fun_spin->value();
-        double to_fun = ui->to_fun_spin->value();
+        int points_no = ui->points_no->value();
         if(from_x > to_x){
             QMessageBox::critical(this, "Invalid input range",
                                "the input range for x is invalid please try again!");
         }
-        else if(from_fun > to_fun){
-            QMessageBox::critical(this, "Invalid input range",
-                               "the input range for function is invalid please try again!");
-        }
-        else plotter->plot(from_x, to_x, from_fun, to_fun);
+        else plotter->plot(from_x, to_x, points_no);
     }
     else{
         QMessageBox::critical(this, "Invalid function",

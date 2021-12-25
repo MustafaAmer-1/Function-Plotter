@@ -15,108 +15,67 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0" colspan="5">
+    <item row="0" column="3">
+     <widget class="QLabel" name="to_x_label">
+      <property name="text">
+       <string>To</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="8">
      <widget class="QWidget" name="widget" native="true"/>
     </item>
     <item row="0" column="1">
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="2" column="2">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>To</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QDoubleSpinBox" name="to_x_spin">
-        <property name="minimum">
-         <double>-9999.99</double>
-        </property>
-        <property name="maximum">
-         <double>9999.99</double>
-        </property>
-        <property name="value">
-         <double>10.0</double>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QDoubleSpinBox" name="from_fun_spin">
-        <property name="minimum">
-         <double>-9999.99</double>
-        </property>
-        <property name="maximum">
-         <double>9999.99</double>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>From</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>From</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="from_x_spin">
-        <property name="minimum">
-         <double>-9999.99</double>
-        </property>
-        <property name="maximum">
-         <double>9999.99</double>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QDoubleSpinBox" name="to_fun_spin">
-        <property name="minimum">
-         <double>-9999.99</double>
-        </property>
-        <property name="maximum">
-         <double>9999.99</double>
-        </property>
-        <property name="value">
-         <double>10.0</double>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>To</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" colspan="2">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>X</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2" colspan="2">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Fun</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QLabel" name="from_x_label">
+      <property name="text">
+       <string>From</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLineEdit" name="fun_input_widget"/>
     </item>
     <item row="0" column="2">
+     <widget class="QDoubleSpinBox" name="from_x_spin">
+      <property name="minimum">
+       <double>-9999.99</double>
+      </property>
+      <property name="maximum">
+       <double>9999.99</double>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="4">
+     <widget class="QDoubleSpinBox" name="to_x_spin">
+      <property name="minimum">
+       <double>-9999.99</double>
+      </property>
+      <property name="maximum">
+       <double>9999.99</double>
+      </property>
+      <property name="value">
+       <double>10.0</double>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="6">
+     <widget class="QSpinBox" name="points_no">
+      <property name="maximum">
+       <number>99999</number>
+      </property>
+      <property name="value">
+       <number>100</number>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="5">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Points no.</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="7">
      <widget class="QPushButton" name="plotButton">
       <property name="text">
        <string>Plot</string>
@@ -125,9 +84,6 @@
        <string>Return</string>
       </property>
      </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLineEdit" name="fun_input_widget"/>
     </item>
    </layout>
   </widget>
