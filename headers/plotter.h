@@ -2,6 +2,7 @@
 #define PLOTTER_H
 
 #include <QObject>
+#include "qcustomplot.h"
 
 class Plotter : public QObject
 {
@@ -22,9 +23,9 @@ public:
 
     bool validate();
 
-    void plot(double from_x, double to_x, int points_no);
+    void plot(QCustomPlot* plotWidget, double from_x, double to_x, int points_no);
 
-    double evaluate(QString function_str, int varValue);
+    double evaluate(QString function_str, double varValue);
 };
 
 #endif // PLOTTER_H
