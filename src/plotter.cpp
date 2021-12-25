@@ -6,6 +6,8 @@
 #define isBinaryOp(e) (e == '*' || e == '/' || e == '^')
 #define isSign(e) (e == '-' || e == '+')
 #define isValidOperand(e) (e.isDigit() || e == 'x' || e == '.')
+#define equvBr(e) (e == ')') ? '(' : (e == '}')? '{' : '['
+#define priority(e) (e=='^')? 2 : (e=='*' || e=='/')? 1 : 0
 
 Plotter::Plotter(QString str)
 {
@@ -69,9 +71,7 @@ bool Plotter::checkBrackets(QString str){
         if(openingBr(str[i])) stack.push(str[i]);
         else if(closingBr(str[i])){
             if(stack.size() == 0) return 0;
-            if(str[i] == ')' && stack.top() == '(') stack.pop();
-            else if(str[i] == '}' && stack.top() == '{') stack.pop();
-            else if(str[i] == ']' && stack.top() == '[') stack.pop();
+            if(equvBr(str[i]) == stack.top()) stack.pop();
             else return 0;
         }
     }
@@ -80,4 +80,79 @@ bool Plotter::checkBrackets(QString str){
 
 void Plotter::plot(double from_x, double to_x, double from_fun, double to_fun){
 
+}
+
+double Plotter::eval(double opd1, double opd2, QChar opr){
+    if(opr == '+') return opd1+opd2;
+    if(opr == '-') return opd1-opd2;
+    if(opr == '*') return opd1*opd2;
+    if(opr == '/') return opd1/opd2;
+    return qPow(opd1, opd2);
+}
+
+double Plotter::evaluate(QString str, int varValue){
+    QStack<double> operands;
+    QStack<QChar> ops;
+
+    for (int i = 0; i < str.size(); i++) {
+        if(str[i].isDigit()){
+            double val = 0;
+            bool lft = 1;
+            int cnt = 1;
+            while(i < str.size() && (str[i].isDigit() || str[i] == '.')){
+                if(str[i] != '.' && lft) val = val*10 + str[i].unicode() - '0';
+                else if(str[i] == '.') lft = 0;
+                else{
+                    val += (str[i].unicode() - '0') / (cnt*10.0);
+                }
+                i++;
+            }
+            i--;
+            operands.push(val);
+        }
+        else if(str[i] == 'x') operands.push(varValue);
+        else if(openingBr(str[i])) ops.push(str[i]);
+        else if(closingBr(str[i])){
+            QChar b = equvBr(str[i]);
+            while(ops.top() != b){
+                double operand2 = operands.top();
+                operands.pop();
+                double operand1 = operands.top();
+                operands.pop();
+                double res = eval(operand1, operand2, ops.top());
+                ops.pop();
+                operands.push(res);
+            }
+            ops.pop();
+        }
+        else{
+            int pr = priority(str[i]);
+            if(!ops.isEmpty()){
+                while(!ops.isEmpty()){
+                    int topPr = priority(ops.top());
+                    if(pr > topPr || openingBr(ops.top())) break;
+                    double operand2 = operands.top();
+                    operands.pop();
+                    double operand1 = operands.top();
+                    operands.pop();
+                    double res = eval(operand1, operand2, ops.top());
+                    ops.pop();
+                    operands.push(res);
+                }
+            }
+            ops.push(str[i]);
+        }
+    }
+
+    while(!ops.isEmpty()){
+        double operand2 = operands.top();
+        operands.pop();
+        double operand1 = operands.top();
+        operands.pop();
+        double res = eval(operand1, operand2, ops.top());
+        ops.pop();
+        operands.push(res);
+    }
+
+    return operands.top();
 }

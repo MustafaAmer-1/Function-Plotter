@@ -15,6 +15,7 @@ private:
     Plotter(QString str);
 
     bool checkBrackets(QString str);
+    double eval(double opd1, double opd2, QChar opr);
 
 public:
     static Plotter* getPlotter(QString function_str = "");
@@ -22,6 +23,8 @@ public:
     bool validate();
 
     void plot(double from_x, double to_x, double from_fun, double to_fun);
+
+    double evaluate(QString function_str, int varValue);
 };
 
 #endif // PLOTTER_H

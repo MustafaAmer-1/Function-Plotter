@@ -10,6 +10,11 @@ class TestPlotter : public QObject
 private slots:
     void validate();
     void validate_data();
+    void evaluate();
+    void evaluate_data();
+
+private:
+    Plotter* plotter = Plotter::getPlotter();
 };
 
 void TestPlotter::validate()
@@ -47,6 +52,24 @@ void TestPlotter::validate_data(){
     QTest::newRow("invalid operand 2") << "xx5" << false;
     QTest::newRow("invalid operand 3") << "x%2222" << false;
     QTest::newRow("invalid operand 4") << "#x-2222" << false;
+}
+
+void TestPlotter::evaluate(){
+    QFETCH(QString, expression);
+    QFETCH(double, varValue);
+    QFETCH(double, value);
+
+    QCOMPARE(plotter->evaluate(expression, varValue), value);
+}
+
+void TestPlotter::evaluate_data(){
+    QTest::addColumn<QString>("expression");
+    QTest::addColumn<double>("varValue");
+    QTest::addColumn<double>("value");
+
+    QTest::newRow("test 1") << "x^2+5*x+35*12*x+70" << 7.0 << 3094.0;
+    QTest::newRow("test 2") << "({5*x+20}*[202*x+13])*1/x" << 13.0 << 17255.0;
+    QTest::newRow("test 3") << "(x^2+5.2*x*35.3)*1/x" << 5.0 << 188.56;
 }
 
 QTEST_APPLESS_MAIN(TestPlotter)
