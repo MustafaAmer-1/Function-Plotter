@@ -24,7 +24,7 @@ public:
 
     bool validate();
 
-    void plot(QCustomPlot* plotWidget, double from_x, double to_x, int points_no);
+    void plot(QCustomPlot* plotWidget, double from_x, double to_x, double from_fun, double to_fun, int points_no);
 
     double evaluate(QString function_str, double varValue);
 };

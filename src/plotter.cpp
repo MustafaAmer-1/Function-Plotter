@@ -1,5 +1,4 @@
 #include "plotter.h"
-#include "float.h"
 
 #define openingBr(x) (x == '(' || x == '{' || x == '[')
 #define closingBr(x) (x == ')' || x == '}' || x == ']')
@@ -8,8 +7,6 @@
 #define isValidOperand(e) (e.isDigit() || e == 'x' || e == '.')
 #define equvBr(e) (e == ')') ? '(' : (e == '}')? '{' : '['
 #define priority(e) (e=='@')? 3 : (e=='^')? 2 : (e=='*' || e=='/')? 1 : 0
-#define MAX(a,b) ((a)>(b)?(a):(b))
-#define MIN(a,b) ((a)<(b)?(a):(b))
 
 Plotter::Plotter(QString str)
 {
@@ -80,23 +77,18 @@ bool Plotter::checkBrackets(QString str){
     return stack.empty();
 }
 
-void Plotter::plot(QCustomPlot* plotWidget, double from_x, double to_x, int points_no){
+void Plotter::plot(QCustomPlot* plotWidget, double from_x, double to_x, double from_fun, double to_fun, int points_no){
     QVector<double> x(points_no+1), y(points_no+1);
     double m = (to_x-from_x)/points_no;
-    double min_y = DBL_MAX;
-    double max_y = DBL_MIN;
     for (int i = 0; i < points_no+1; i++) {
         x[i] = m*i + from_x;
         y[i] = this->evaluate(this->function_str, x[i]);
-        min_y = MIN(y[i], min_y);
-        max_y = MAX(y[i], max_y);
     }
-    plotWidget->addGraph();
     plotWidget->graph(0)->setData(x, y);
     plotWidget->xAxis->setLabel("x");
     plotWidget->yAxis->setLabel("fun");
     plotWidget->xAxis->setRange(from_x, to_x);
-    plotWidget->yAxis->setRange(min_y, max_y);
+    plotWidget->yAxis->setRange(from_fun, to_fun);
     plotWidget->replot();
 }
 
