@@ -2,6 +2,7 @@
 #define PLOTTER_H
 
 #include <QObject>
+#include <QStack>
 #include "qcustomplot.h"
 
 class Plotter : public QObject
@@ -16,7 +17,7 @@ private:
     Plotter(QString str);
 
     bool checkBrackets(QString str);
-    double eval(double opd1, double opd2, QChar opr);
+    void eval(QStack<double> &operands, QChar opr);
 
 public:
     static Plotter* getPlotter(QString function_str = "");

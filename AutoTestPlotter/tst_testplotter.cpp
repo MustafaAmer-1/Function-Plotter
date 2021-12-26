@@ -70,6 +70,8 @@ void TestPlotter::evaluate_data(){
     QTest::newRow("test 1") << "x^2+5*x+35*12*x+70" << 7.0 << 3094.0;
     QTest::newRow("test 2") << "({5*x+20}*[202*x+13])*1/x" << 13.0 << 17255.0;
     QTest::newRow("test 3") << "(x^2+5.2*x*35.3)*1/x" << 5.0 << 188.56;
+    QTest::newRow("test 4") << "x*-3" << 5.0 << -15.0;
+    QTest::newRow("test 5") << "-3" << 10.0 << -3.0;
 }
 
 QTEST_APPLESS_MAIN(TestPlotter)
