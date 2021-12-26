@@ -11,57 +11,48 @@
 Plotter::Plotter(QString str)
 {
     this->function_str = str;
-    isExpValid = 0;
 }
 
 Plotter* Plotter::getPlotter(QString function_str){
     if(!plotterSingleton)
         plotterSingleton = new Plotter(function_str);
-    else{
-        plotterSingleton->function_str = function_str;
-        plotterSingleton->isExpValid = 0;
-    }
+    else plotterSingleton->function_str = function_str;
 
     return plotterSingleton;
 }
 
 bool Plotter::validate(){
-    if(isExpValid) return 1;
-
-    if(!checkBrackets(function_str)) return isExpValid = 0;
-    QString function_str_nb = "";
-    for (int i = 0; i < function_str.size(); i++){
-        if(openingBr(function_str[i])){
-            if(i > 0 && !isSign(function_str[i-1]) && !isBinaryOp(function_str[i-1]) && !openingBr(function_str[i-1])) return isExpValid = 0;
-            if(!isSign(function_str[i+1]) && !isValidOperand(function_str[i+1]) && !openingBr(function_str[i+1])) return isExpValid = 0;
+    bool op = 0;
+    QStack<QChar> brackes;
+    for (int i = 0; i < function_str.size(); i++) {
+        QChar* c = &function_str[i];
+        if(c->isDigit() || (*c == '.' && i<function_str.size()-1 && *(c+1)!='.')) op = 1;
+        else if(*c == 'x'){
+            if(i > 0 && ((c-1)->isDigit() || *(c-1) == 'x')) return 0;
+            if(i < function_str.size()-1 && ((c+1)->isDigit() || *(c+1) == 'x')) return 0;
+            op = 1;
         }
-        else if(closingBr(function_str[i])){
-            if(!isValidOperand(function_str[i-1]) && !closingBr(function_str[i-1])) return isExpValid = 0;
-            if(i < function_str.size()-1 && !isSign(function_str[i+1]) && !isBinaryOp(function_str[i+1]) && !closingBr(function_str[i+1])) return isExpValid = 0;
+        else if(isBinaryOp(*c)){
+            if(!op) return 0;
+            op = 0;
         }
-        else function_str_nb += function_str[i];
+        else if(isSign(*c)){
+            if(i == 0 || openingBr(*(c-1)) || isBinaryOp(*(c-1)) || isSign(*(c-1))) continue; //unary
+            if(!op) return 0;
+            op = 0;
+        }
+        else if(openingBr(*c)){
+            if(op) return 0;
+            brackes.push(*c);
+        }
+        else if(closingBr(*c)){
+            QChar eq = equvBr(*c);
+            if(!op || brackes.empty() || eq != brackes.top()) return 0;
+            brackes.pop();
+        }
+        else return 0;
     }
-    if(function_str_nb.size() < 3){
-        if(function_str_nb.size() == 0) return isExpValid = 1;
-        else if(function_str_nb.size() == 1) return isExpValid = (function_str_nb[0].isDigit() || function_str_nb[0] == 'x');
-        else return isExpValid = (isSign(function_str_nb[0]) && (function_str_nb[1].isDigit() || function_str_nb[1] == 'x'));
-    }
-    if(isBinaryOp(function_str_nb[0]) || isBinaryOp(function_str_nb.back()) || isSign(function_str_nb.back())
-            || (!isValidOperand(function_str_nb[0]) && !isSign(function_str_nb[0])) || (function_str_nb[0] == 'x' && function_str_nb[1].isDigit())) return isExpValid = 0;
-
-    for(int i = 1; i < function_str_nb.size(); i++){
-        if(isBinaryOp(function_str_nb[i])){
-            if(!isValidOperand(function_str_nb[i-1]) || (i < function_str_nb.size()-1 && !isValidOperand(function_str_nb[i+1]) && !isSign(function_str_nb[i+1])))
-                return isExpValid = 0;
-        }
-        else if(isSign(function_str_nb[i])){
-            if((!isValidOperand(function_str_nb[i-1]) && !isBinaryOp(function_str_nb[i-1])) || (i < function_str_nb.size()-1 && !isValidOperand(function_str_nb[i+1])))
-                return isExpValid = 0;
-        }
-        else if(!isValidOperand(function_str_nb[i])) return isExpValid = 0;
-        else if(function_str_nb[i] == 'x' && (function_str_nb[i-1].isDigit() || (i < function_str_nb.size()-1 && function_str_nb[i+1].isDigit()))) return isExpValid = 0;
-    }
-    return isExpValid = 1;
+    return op;
 }
 
 bool Plotter::checkBrackets(QString str){

@@ -12,7 +12,6 @@ class Plotter : public QObject
 private:
     inline static Plotter* plotterSingleton;
     QString function_str;
-    bool isExpValid;
 
     Plotter(QString str);
 

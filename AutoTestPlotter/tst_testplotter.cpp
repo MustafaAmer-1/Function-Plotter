@@ -43,7 +43,7 @@ void TestPlotter::validate_data(){
     QTest::newRow("sign test 8") << "*x" << false;
     QTest::newRow("sign test 9") << "*" << false;
     QTest::newRow("sign test 10") << "y-x" << false;
-    QTest::newRow("empty") << "" << true;
+    QTest::newRow("empty") << "" << false;
     QTest::newRow("brackets test 1") << "(x*2)" << true;
     QTest::newRow("brackets test 2") << "({5*x+20}*[202*x+13])*1/x" << true;
     QTest::newRow("brackets test 3") << "({5*x+20}*[+202*y+13])*1/x" << false;
