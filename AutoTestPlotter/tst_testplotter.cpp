@@ -22,7 +22,19 @@ void TestPlotter::validate()
     QFETCH(QString, expression);
     QFETCH(bool, validity);
 
-    QCOMPARE(Plotter::getPlotter(expression)->validate(), validity);
+    if(validity){
+        try {
+            Plotter::getPlotter(expression)->validate();
+        }
+        catch(ExpressionException* e){
+            QString msg = "Unexpected excepssion of type ExpressionException has been thown with message: " + e->msg;
+            QTest::qFail(msg.toStdString().c_str() , __FILE__, __LINE__);
+        }
+        catch (...) {
+            QTest::qFail("Unexpected excepssion of unknown type has been thown", __FILE__, __LINE__);
+        }
+    }
+    else QVERIFY_EXCEPTION_THROWN(Plotter::getPlotter(expression)->validate(), ExpressionException*);
 }
 
 void TestPlotter::validate_data(){

@@ -21,51 +21,51 @@ Plotter* Plotter::getPlotter(QString function_str){
     return plotterSingleton;
 }
 
-bool Plotter::validate(){
+void Plotter::validate(){
     bool op = 0;
     QStack<QChar> brackes;
     for (int i = 0; i < function_str.size(); i++) {
         QChar* c = &function_str[i];
         if(c->isDigit() || (*c == '.' && i<function_str.size()-1 && *(c+1)!='.')) op = 1;
         else if(*c == 'x'){
-            if(i > 0 && ((c-1)->isDigit() || *(c-1) == 'x')) return 0;
-            if(i < function_str.size()-1 && ((c+1)->isDigit() || *(c+1) == 'x')) return 0;
+            if(i > 0 && ((c-1)->isDigit() || *(c-1) == 'x'))
+                throw new ExpressionException("mistake in '" + function_str.mid(i-1, 2) + "'\nuse '*' for multiplication");
+            if(i < function_str.size()-1 && ((c+1)->isDigit() || *(c+1) == 'x'))
+                throw new ExpressionException("mistake in '" + function_str.mid(i, 2) + "'\nuse '*' for multiplication");
             op = 1;
         }
         else if(isBinaryOp(*c)){
-            if(!op) return 0;
+            if(!op){
+                if(i == 0)
+                    throw new ExpressionException("exepression cannot start with " + function_str.left(1));
+                throw new ExpressionException("mistake in '" + function_str.mid(i-1, 2) + "' at index " + QString::number(i-1));
+            }
             op = 0;
         }
         else if(isSign(*c)){
             if(i == 0 || openingBr(*(c-1)) || isBinaryOp(*(c-1)) || isSign(*(c-1))) continue; //unary
-            if(!op) return 0;
+            // if(!op) throw new ExpException("mistake in " + function_str.mid(i-1, 2));
             op = 0;
         }
         else if(openingBr(*c)){
-            if(op) return 0;
+            if(op) throw new ExpressionException("mistake in '" + function_str.mid(i-1, 2) + "'\nuse '*' for multiplication");
             brackes.push(*c);
         }
         else if(closingBr(*c)){
             QChar eq = equvBr(*c);
-            if(!op || brackes.empty() || eq != brackes.top()) return 0;
+            if(!op){
+                if(i == 0) throw new ExpressionException("mistake in bracket '" + function_str.left(1) + "' cannot start with closing braket");
+                else throw new ExpressionException("mistake in '" + function_str.mid(i-1, 2) + "' at index " + QString::number(i-1));
+            }
+            if(brackes.empty() || eq != brackes.top())
+                throw new ExpressionException("mistake in bracket '" + function_str.mid(i, 1) + "' at index " + QString::number(i));
+            if(i<function_str.size()-1 && !isBinaryOp(*(c+1)) && !isSign((*(c+1))) && !closingBr(*(c+1)))
+                throw new ExpressionException("mistake in '" + function_str.mid(i, 2) + + "'\nuse '*' for multiplication");
             brackes.pop();
         }
-        else return 0;
+        else throw new ExpressionException("Invalid Character '" + function_str.mid(i, 1) + "' at index " + QString::number(i));
     }
-    return op;
-}
-
-bool Plotter::checkBrackets(QString str){
-    QStack<QChar> stack;
-    for (int i = 0; i < str.size(); i++){
-        if(openingBr(str[i])) stack.push(str[i]);
-        else if(closingBr(str[i])){
-            if(stack.size() == 0) return 0;
-            if(equvBr(str[i]) == stack.top()) stack.pop();
-            else return 0;
-        }
-    }
-    return stack.empty();
+    if(!op) throw new ExpressionException("mistake in '" + function_str.right(2) + "' exepression cannot end with " + function_str.right(1));
 }
 
 void Plotter::plot(QCustomPlot* plotWidget, double from_x, double to_x, double from_fun, double to_fun, int points_no){
@@ -127,7 +127,10 @@ double Plotter::evaluate(QString str, double varValue){
             ops.pop();
         }
         else{
-            if(str[i] == '-' && (i== 0 || openingBr(str[i-1]) || isBinaryOp(str[i-1]) || isSign(str[i-1]) )) str[i] = '@';
+            if(isSign(str[i]) && (i== 0 || openingBr(str[i-1]) || isBinaryOp(str[i-1]) || isSign(str[i-1]) )){ //unary
+                if(str[i] == '-') ops.push('@');
+                continue;
+            }
             int pr = priority(str[i]);
             while(!ops.isEmpty()){
                 int topPr = priority(ops.top());
