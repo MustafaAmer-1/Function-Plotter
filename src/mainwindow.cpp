@@ -1,8 +1,23 @@
+/**
+ * @file mainwindow.cpp
+ * @author Mustafa Amer (eng.MustafaAmer0@gmail.com)
+ * @brief MainWindow class implementation
+ * @version 0.1
+ * @date 2021-12-31
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "QMessageBox"
 #include "plotter.h"
 
+/**
+ * @brief Construct a new Main Window object
+ * 
+ * @param parent - the parent widget for this window
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -11,12 +26,23 @@ MainWindow::MainWindow(QWidget *parent)
     ui->plotWidget->addGraph();
 }
 
+/**
+ * @brief Destroy the Main Window object
+ * 
+ */
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
 
+/**
+ * @brief signal method which get executed when clicking at the plot button
+ * the method first check for the input function expression, displaying messages with any wrong input. 
+ * then check for the input ranges for x and the function to be plotted
+ * then call the plot method from Plotter class with the input data
+ * 
+ */
 void MainWindow::on_plotButton_clicked()
 {
     QString function_str = ui->fun_input_widget->text();
