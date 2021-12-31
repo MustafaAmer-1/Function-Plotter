@@ -67,6 +67,8 @@ void Plotter::validate(){
                     throw new ExpressionException("exepression cannot start with " + function_str.left(1));
                 throw new ExpressionException("mistake in '" + function_str.mid(i-1, 2) + "' at index " + QString::number(i-1));
             }
+            if(*c == '/' && i<function_str.size()-1 && *(c+1)=='0')
+                throw new ExpressionException("mistake in '" + function_str.mid(i, 2) + "' ,cannot devide by zero!");
             op = 0;
         }
         else if(isSign(*c)){

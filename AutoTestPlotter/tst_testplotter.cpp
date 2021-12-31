@@ -64,6 +64,7 @@ void TestPlotter::validate_data(){
     QTest::newRow("invalid operand 2") << "xx5" << false;
     QTest::newRow("invalid operand 3") << "x%2222" << false;
     QTest::newRow("invalid operand 4") << "#x-2222" << false;
+    QTest::newRow("devide by zero") << "x^3+15*x+x/0+3" << false;
 }
 
 void TestPlotter::evaluate(){
