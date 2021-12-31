@@ -1,3 +1,13 @@
+/**
+ * @file plotter.cpp
+ * @author Mustafa Amer (eng.MustafaAmer0@gmail.com)
+ * @brief Plotter class implementation.
+ * @version 0.1
+ * @date 2021-12-31
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #include "plotter.h"
 
 #define openingBr(x) (x == '(' || x == '{' || x == '[')
@@ -8,11 +18,22 @@
 #define equvBr(e) (e == ')') ? '(' : (e == '}')? '{' : '['
 #define priority(e) (e=='@')? 3 : (e=='^')? 2 : (e=='*' || e=='/')? 1 : 0
 
+/**
+ * @brief Private constructor to construct a new Plotter object
+ * 
+ * @param str - the function expression
+ */
 Plotter::Plotter(QString str)
 {
     this->function_str = str;
 }
 
+/**
+ * @brief singleton method to get a plotter object pointer
+ * 
+ * @param function_str - the function expression
+ * @return Plotter* - static Plotter object pointer
+ */
 Plotter* Plotter::getPlotter(QString function_str){
     if(!plotterSingleton)
         plotterSingleton = new Plotter(function_str);
@@ -21,6 +42,12 @@ Plotter* Plotter::getPlotter(QString function_str){
     return plotterSingleton;
 }
 
+/**
+ * @brief validate the function expression stored in the object (function_str data member)
+ * this method throws Expression Exception if the funciton expression is invalid,
+ * reporting useful message for the user.
+ * 
+ */
 void Plotter::validate(){
     bool op = 0;
     QStack<QChar> brackes;
@@ -70,6 +97,16 @@ void Plotter::validate(){
         throw new ExpressionException("mistake in end of expression there is opening bracket '"+ QString(brackes.top()) + "' without closing one");
 }
 
+/**
+ * @brief plot the function expression
+ * 
+ * @param plotWidget - Qt widget to display the plotting on.
+ * @param from_x - the starting value for the x
+ * @param to_x - the ending value for the x
+ * @param from_fun - the statring value for the function.
+ * @param to_fun - the ending value for the funtion.
+ * @param points_no - the number of points to be plotted -> this affects the smoothness of the curve.
+ */
 void Plotter::plot(QCustomPlot* plotWidget, double from_x, double to_x, double from_fun, double to_fun, int points_no){
     QVector<double> x(points_no+1), y(points_no+1);
     double m = (to_x-from_x)/points_no;
@@ -85,6 +122,14 @@ void Plotter::plot(QCustomPlot* plotWidget, double from_x, double to_x, double f
     plotWidget->replot();
 }
 
+/**
+ * @brief private helper function used to perform arithmetic operation on one or two operands
+ * 
+ * @param operands - stack of the operands performing the operation on.
+ * @param opr - operator char which is one of these +-/*^@
+ * @ is replacemnt for the unary negative operator (-)
+ * 
+ */
 void Plotter::eval(QStack<double> &operands, QChar opr){
     double res, opd2, opd1=0;
     opd2 = operands.top();
@@ -100,6 +145,13 @@ void Plotter::eval(QStack<double> &operands, QChar opr){
     operands.push(res);
 }
 
+/**
+ * @brief evaluate the function expression on given value
+ * 
+ * @param str - the expression as function of x 
+ * @param varValue - the value of x
+ * @return double - the resulting value of the function
+ */
 double Plotter::evaluate(QString str, double varValue){
     QStack<double> operands;
     QStack<QChar> ops;
