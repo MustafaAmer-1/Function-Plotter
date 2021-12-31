@@ -66,6 +66,8 @@ void Plotter::validate(){
         else throw new ExpressionException("Invalid Character '" + function_str.mid(i, 1) + "' at index " + QString::number(i));
     }
     if(!op) throw new ExpressionException("mistake in '" + function_str.right(2) + "' exepression cannot end with " + function_str.right(1));
+    if(!brackes.empty())
+        throw new ExpressionException("mistake in end of expression there is opening bracket '"+ QString(brackes.top()) + "' without closing one");
 }
 
 void Plotter::plot(QCustomPlot* plotWidget, double from_x, double to_x, double from_fun, double to_fun, int points_no){

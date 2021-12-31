@@ -46,6 +46,15 @@ void MainWindow::on_plotButton_clicked()
         QMessageBox::critical(this, "Invalid input range",
                            "the input range for function is invalid please try again!");
     }
-    else plotter->plot(ui->plotWidget, from_x, to_x, from_fun, to_fun, points_no);
+    else{
+        try{
+            plotter->plot(ui->plotWidget, from_x, to_x, from_fun, to_fun, points_no);
+        }
+        catch(...){
+            QMessageBox::critical(this, "Invalid function",
+                               "the input function is invalid\n"
+                               "please try again!");
+        }
+    }
 }
 
