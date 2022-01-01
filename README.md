@@ -67,3 +67,5 @@ then run the executable as follows
 # Testing
 
 the project has been tested by [QTest](https://doc.qt.io/qt-5/qtest-overview.html) framework, including the testing source code in [AutoTestPlotter](AutoTestPlotter) project.
+
+This project has been analysed with [cppcheck](https://cppcheck.sourceforge.io/) static code analysis tool and has reported NO ERROR nor warning.
