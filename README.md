@@ -24,11 +24,11 @@ there is many snapshots of correct and wrong input examples in the [examples](ex
 
 here's two of them
 
-arbitrary function: 
+> arbitrary function: 
 
 <img src="examples/correct/arbitrary.png" title="" alt="working example" data-align="center">
 
-wrong successive brackets:
+> wrong successive brackets:
 
 <img src="examples/wrong/operators.png" title="" alt="wrong example" data-align="center">
 
@@ -46,23 +46,19 @@ It's recommended to build this project with Qtcreator to solve any dependency pr
 
 ## Manual build
 
-To manually build this project you need qmake to be installed with QT library configured.
+To manually build this project you need qmake 6 to be installed with QT libraries configured.
 
 create clean building directory
 
 ```bash
 mkdir build
 cd build
-qmake ..
+qmake ../Function-Plotter.pro
 # compile
-make
+make -j8
 ```
 
-then run the executable as follows
-
-```bash
-./Function-Plotter
-```
+then run the output executable file.
 
 # Testing
 

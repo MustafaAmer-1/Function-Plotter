@@ -128,8 +128,8 @@ void Plotter::plot(QCustomPlot* plotWidget, double from_x, double to_x, double f
  * @brief private helper function used to perform arithmetic operation on one or two operands
  * 
  * @param operands - stack of the operands performing the operation on.
- * @param opr - operator char which is one of these +-/*^@
- * @ is replacemnt for the unary negative operator (-)
+ * @param opr - operator char which is one of these +-*^/
+ * '@' is replacemnt for the unary negative operator (-)
  * 
  */
 void Plotter::eval(QStack<double> &operands, QChar opr){
